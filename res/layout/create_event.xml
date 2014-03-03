@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/edtCreateEvent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Event Name" />
+
+    <EditText
+        android:id="@+id/edteventDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Event Description" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/eventBuiding"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:hint="Choose Building" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/eventDT"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:hint="Choose Date Time" >
+    </TextView>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/viewDate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnSaveDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Date Time For Event" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCraeteEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Event" />
+
+</LinearLayout>

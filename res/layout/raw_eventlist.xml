@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ADD8E6"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:id="@+id/rawLayDSRUI"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/event_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="name"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/event_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="time"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/event_descr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="decr"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+    
+    
+    
+</LinearLayout>
