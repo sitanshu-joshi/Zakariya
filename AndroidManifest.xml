@@ -33,6 +33,7 @@
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".CommnetsActivity"></activity>s
         <activity android:name=".Signup"></activity>
+        <activity android:name=".CreateEvent"></activity>
         
     </application>
 

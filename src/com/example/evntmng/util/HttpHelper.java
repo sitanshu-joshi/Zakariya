@@ -119,12 +119,12 @@ public class HttpHelper {
 	 * 
 	 * @return
 	 */
-	public static String getEventList(){
+	public static String getEventList(String buildingId){
 		String pasringString = "";
 		try{
 			DefaultHttpClient client = new DefaultHttpClient();  
-
-			HttpGet get = new HttpGet(Constant.getEvent);
+			String url = String.format(Constant.getEvent, buildingId);
+			HttpGet get = new HttpGet(url);
 			HttpResponse responseGet = client.execute(get);  
 			HttpEntity resEntityGet = responseGet.getEntity();  
 			if (resEntityGet != null) {  
@@ -192,7 +192,40 @@ public class HttpHelper {
 		}
 		return pasringString;
 	}
-	
+	/**
+	 * Create Request for 
+	 * @param title
+	 * @param descr
+	 * @param date
+	 * @param buildingId
+	 * @param userID
+	 * @return
+	 */
+	public static String CreateEvent(String title, String descr, String date, String buildingId, String userID){
+		String pasringString = "";
+		try{
+			DefaultHttpClient client = new DefaultHttpClient();  
+			String url = String.format(Constant.createEven, title, descr,date, buildingId, userID);
+			System.out.println(url);
+			HttpGet get = new HttpGet(url);
+			HttpResponse responseGet = client.execute(get);  
+			HttpEntity resEntityGet = responseGet.getEntity();  
+			if (resEntityGet != null) {  
+				// do something with the response
+				String response = EntityUtils.toString(resEntityGet);
+				System.out.println("GET RESPONSE"+response);
+				pasringString = response;
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return pasringString;
+	}
+		
 	/**
 	 * THis will convert HttpResponse into real response Body.
 	 * @param httpResponse

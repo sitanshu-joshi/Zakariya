@@ -5,6 +5,12 @@
     android:orientation="vertical"
     android:background="#ADD8E6" >
 
+    <TextView
+        android:id="@+id/txtGetEvent"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+ 		android:gravity="center"
+        android:text="Choose Building" />
     
     <LinearLayout
         android:id="@+id/rawLayDSRUI"
@@ -48,10 +54,14 @@
     <ListView
         android:id="@+id/listView1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="1" >
     </ListView>
-    
-  
+
+    <Button
+        android:id="@+id/btnCreateEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create New Event" />
 
 </LinearLayout>

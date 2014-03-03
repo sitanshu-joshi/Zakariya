@@ -8,8 +8,7 @@
         android:id="@+id/add_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint = "username"
-         >
+        android:hint="username" >
     </EditText>
 
     <EditText
@@ -17,22 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint = "password"
+        android:hint="password"
         android:inputType="textPassword" />
 
-<TextView 
-    android:layout_width="fill_parent"
-    android:layout_height="35dp"
-    android:layout_marginLeft="5dp"
-    android:id="@+id/add_campusname"
-    android:gravity="center_vertical"
-    android:text="Choose Building"
-    />
     <Button
-        android:layout_marginTop="10dp"
         android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Sign Up" />
-    
+
 </LinearLayout>

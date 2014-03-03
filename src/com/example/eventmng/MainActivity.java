@@ -8,14 +8,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adapter.AdapterListEvent;
@@ -27,6 +32,9 @@ import com.util.Constant;
 public class MainActivity extends Activity {
 	ListView lstView;
 	List<EventList> lsEventLists;
+	TextView txtGetBuilding;
+	Button btnCreateEvent;
+	
 	private Context context;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,26 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         context = this;
         lstView = (ListView)findViewById(R.id.listView1);        
+        txtGetBuilding = (TextView)findViewById(R.id.txtGetEvent);
+        btnCreateEvent = (Button)findViewById(R.id.btnCreateEvent);
+        
+        btnCreateEvent.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, CreateEvent.class);
+				startActivity(intent);
+			}
+		});
+        
+        txtGetBuilding.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				building(Constant.lstBuildings);
+			}
+		});
+        
         lstView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
@@ -45,11 +73,11 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-        
-        initialSetup();  
+        txtGetBuilding.setText(Constant.lstBuildings.get(0).getTitle());
+        initialSetup(Constant.lstBuildings.get(0).getId());  
     }
-    private void initialSetup(){
-    	String resp = HttpHelper.getEventList();
+    private void initialSetup(String buildingId){
+    	String resp = HttpHelper.getEventList(buildingId);
     	try {
     		JSONObject jsonObject = new JSONObject(resp);
     		JSONArray data = (JSONArray)jsonObject.get("datas");
@@ -125,4 +153,35 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
+    private void building(List<Building> buildings){
+		List<String> strings = new ArrayList<String>();
+		for (int i = 0; i < buildings.size(); i++) {
+			strings.add(buildings.get(i).getTitle());
+		}
+		final CharSequence[] items = strings.toArray(new CharSequence[strings.size()]);
+
+		//			final CharSequence[] items = {"Visited","Store Was Close","Not Visited"};
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int item) {
+				// Call event list
+				initialSetup(Constant.lstBuildings.get(item).getId());
+				txtGetBuilding.setText(Constant.lstBuildings.get(item).getTitle());
+			}
+		});		
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {				
+
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+
+			}
+		});
+		AlertDialog alert = builder.create();
+		builder.setTitle("Choose Building");
+		alert.show();
+	}
+
 }
