@@ -50,18 +50,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/btn_list"
+             <Button
+                android:id="@+id/btn_redirectEvent"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="Events" />
+                android:text="Event" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
+            
             <Button
                 android:id="@+id/btn_Login"
                 android:layout_width="80dp"

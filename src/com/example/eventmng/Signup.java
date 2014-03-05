@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,7 +26,7 @@ public class Signup extends Activity implements LocationListener{
 	private EditText username,password;
 
 	private Button btnSignUp;
-	private String strBuildingid;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -46,28 +47,37 @@ public class Signup extends Activity implements LocationListener{
 		/*
 		 * Or
 		 */
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+//		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
 		btnSignUp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				String res = HttpHelper.getSignupResposne(username.getText().toString().trim(), password.getText().toString().trim(), strBuildingid, Constant.latitude, Constant.longitude);
-
+				String res = HttpHelper.getSignupResposne(username.getText().toString().trim(), password.getText().toString().trim(), Constant.latitude, Constant.longitude);
+				System.out.println("======="+res);
 				try {
 					JSONObject jsonObject = new JSONObject(res);
 					JSONArray data = (JSONArray)jsonObject.get("datas");
 					JSONObject status = (JSONObject) data.get(0);
-					int log = (Integer) status.get("status");
+					int log = (Integer)status.get("status");
+					
+					
 					if (log == 1) {
 						Toast.makeText(getApplicationContext(), "Successfully Created Account ", Toast.LENGTH_SHORT).show();
+						finish();
 					} else {
-						Toast.makeText(getApplicationContext(), "Problem in server, try after some time", Toast.LENGTH_SHORT).show();
+						String msg = (String) status.get("msg");
+						Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 					}
 				}catch(Exception e) {
 					e.printStackTrace();
+					if (res.contains("1")) {
+						Toast.makeText(getApplicationContext(), "Successfully Created Account ", Toast.LENGTH_SHORT).show();
+						finish();
+					} else {
+						Toast.makeText(getApplicationContext(), "Problem in server, try after some time", Toast.LENGTH_SHORT).show();
+					}
 				}
-
 			}
 		});
 	}

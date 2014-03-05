@@ -60,11 +60,11 @@ public class HttpHelper {
 	 * @param log
 	 * @return
 	 */
-	public static String getSignupResposne(String username, String password, String campus, double lat, double log) {
+	public static String getSignupResposne(String username, String password, double lat, double log) {
 		String pasringString = "";
 		try {
 
-			String url = String.format(Constant.login, username, password);
+			String url = String.format(Constant.signin, username, password,lat,log);
 			System.out.println(url);
 			DefaultHttpClient client = new DefaultHttpClient();  
 
@@ -75,6 +75,7 @@ public class HttpHelper {
 				// do something with the response
 				String response = EntityUtils.toString(resEntityGet);
 				System.out.println("GET RESPONSE"+response);
+				pasringString = response;
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -124,6 +125,7 @@ public class HttpHelper {
 		try{
 			DefaultHttpClient client = new DefaultHttpClient();  
 			String url = String.format(Constant.getEvent, buildingId);
+			System.out.println(url);
 			HttpGet get = new HttpGet(url);
 			HttpResponse responseGet = client.execute(get);  
 			HttpEntity resEntityGet = responseGet.getEntity();  
@@ -203,6 +205,8 @@ public class HttpHelper {
 	 */
 	public static String CreateEvent(String title, String descr, String date, String buildingId, String userID){
 		String pasringString = "";
+		title = title.replaceAll(" ", "%20");
+		descr = descr.replaceAll(" ", "%20");
 		try{
 			DefaultHttpClient client = new DefaultHttpClient();  
 			String url = String.format(Constant.createEven, title, descr,date, buildingId, userID);

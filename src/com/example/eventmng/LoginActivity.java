@@ -1,5 +1,7 @@
 package com.example.eventmng;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.eventmng.data.Building;
 import com.example.evntmng.util.HttpHelper;
 import com.util.Constant;
 
@@ -31,7 +34,7 @@ public class LoginActivity extends Activity{
 		
 		btnLogin = (Button)findViewById(R.id.btn_Login);
 		btnSignup = (Button)findViewById(R.id.btn_Signup);
-		btnEvent = (Button)findViewById(R.id.btn_list);
+		btnEvent = (Button)findViewById(R.id.btn_redirectEvent);
 		edtusername = (EditText)findViewById(R.id.username);
 		edtPassword = (EditText)findViewById(R.id.password);
 		context = this;
@@ -39,6 +42,7 @@ public class LoginActivity extends Activity{
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		
+		getBuildings();
 		btnLogin.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -101,4 +105,46 @@ public class LoginActivity extends Activity{
 		}
 		return isValidate;
 	}
+	private void getBuildings(){
+		String resp =	HttpHelper.getBuildings();
+
+		try {
+			JSONObject jsonObject = new JSONObject(resp);
+			JSONArray data = (JSONArray)jsonObject.get("datas");
+			JSONObject status = (JSONObject) data.get(0);
+
+			int log = (Integer) status.get("status");
+			if (log == 1) {
+				int size = (Integer) status.get("size");
+				Constant.lstBuildings = null;
+				Constant.lstBuildings = new ArrayList<Building>();
+				for (int i = 0; i < size; i++) {
+					JSONObject object = (JSONObject)status.get(i+"");
+
+					Building building = new Building();
+					building.setId(object.getString("id"));
+					building.setTitle(object.getString("title"));
+					String lat = object.getString("latitude");
+					String lon = object.getString("longitude");
+					
+					if (lat != null && !lat.equalsIgnoreCase("null") && lon != null && !lon.equalsIgnoreCase("null") ) {
+						building.setLatitude(Double.parseDouble(lat));
+						building.setLonditude(Double.parseDouble(lon));
+					}
+
+
+					Constant.lstBuildings.add(building);
+				}
+				System.out.println(Constant.lstBuildings);
+			} else {
+				Toast.makeText(getApplicationContext(), "Currently no buildings are available", Toast.LENGTH_SHORT).show();
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 }

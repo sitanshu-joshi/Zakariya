@@ -25,7 +25,7 @@ public final class R {
         public static final int btnViewComments=0x7f070017;
         public static final int btn_Login=0x7f07001c;
         public static final int btn_Signup=0x7f07001a;
-        public static final int btn_list=0x7f07001b;
+        public static final int btn_redirectEvent=0x7f07001b;
         public static final int comment_name=0x7f07001d;
         public static final int comment_user_id=0x7f07001e;
         public static final int datePicker=0x7f07000d;

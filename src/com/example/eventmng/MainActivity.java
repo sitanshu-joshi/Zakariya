@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 	List<EventList> lsEventLists;
 	TextView txtGetBuilding;
 	Button btnCreateEvent;
-	
+	String buildingId = "0";
 	private Context context;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,12 @@ public class MainActivity extends Activity {
         lstView = (ListView)findViewById(R.id.listView1);        
         txtGetBuilding = (TextView)findViewById(R.id.txtGetEvent);
         btnCreateEvent = (Button)findViewById(R.id.btnCreateEvent);
+        
+        if (Constant.userId == null || Constant.userId.length() == 0) {
+			btnCreateEvent.setVisibility(View.GONE);
+		} else {
+			btnCreateEvent.setVisibility(View.VISIBLE);
+		}
         
         btnCreateEvent.setOnClickListener(new OnClickListener() {
 			@Override
@@ -74,7 +80,7 @@ public class MainActivity extends Activity {
 			}
 		});
         txtGetBuilding.setText(Constant.lstBuildings.get(0).getTitle());
-        initialSetup(Constant.lstBuildings.get(0).getId());  
+        initialSetup(buildingId);  
     }
     private void initialSetup(String buildingId){
     	String resp = HttpHelper.getEventList(buildingId);
@@ -82,11 +88,11 @@ public class MainActivity extends Activity {
     		JSONObject jsonObject = new JSONObject(resp);
     		JSONArray data = (JSONArray)jsonObject.get("datas");
 			JSONObject status = (JSONObject) data.get(0);
-			
+			lsEventLists = new ArrayList<EventList>();
 			int log = (Integer) status.get("status");
 			if (log == 1) {
 				int size = (Integer) status.get("size");
-				lsEventLists = new ArrayList<EventList>();
+				
 				for (int i = 0; i < size; i++) {
 					
 					JSONObject object = (JSONObject)status.get(i+"");
@@ -122,6 +128,8 @@ public class MainActivity extends Activity {
 				}
 			} else {
 				Toast.makeText(context, "No Events are available", Toast.LENGTH_LONG).show();
+				AdapterListEvent adapterStoreDetail = new AdapterListEvent(getApplicationContext(), lsEventLists);
+				lstView.setAdapter(adapterStoreDetail);
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
